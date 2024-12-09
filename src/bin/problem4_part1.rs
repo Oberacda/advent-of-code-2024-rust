@@ -191,31 +191,22 @@ fn visualize_matches(found_words: &[FoundWord], rows: usize, cols: usize) {
     }
 }
 
-fn visualize_match(found_word: &FoundWord, rows: usize, cols: usize) {
-    let mut array = Array2::<char>::from_elem((rows, cols), '.');
-    array[found_word.positions[0]] = 'X';
-    array[found_word.positions[1]] = 'M';
-    array[found_word.positions[2]] = 'A';
-    array[found_word.positions[3]] = 'S';
-
-    println!("Match: {:?} \n {:?}\n", found_word, array);
-}
-
 #[cfg(test)]
 mod tests {
-    use crate::{create_search_matrix, find_words_in_matrix, visualize_match};
+    use crate::{create_search_matrix, find_words_in_matrix, visualize_matches};
 
     #[test]
     fn test_example() {
         let input_string = include_str!("../../problems/problem4_test.txt");
         let search_matrix = create_search_matrix(input_string);
-        println!("{:?}", search_matrix);
 
         let found_words = find_words_in_matrix(&search_matrix);
 
-        for word in &found_words {
-            visualize_match(&word, search_matrix.nrows(), search_matrix.ncols());
-        }
+        visualize_matches(
+            found_words.as_ref(),
+            search_matrix.nrows(),
+            search_matrix.ncols(),
+        );
 
         assert_eq!(found_words.len(), 18);
     }
