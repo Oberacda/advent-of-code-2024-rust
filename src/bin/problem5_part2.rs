@@ -6,6 +6,10 @@ use std::collections::{HashMap, HashSet};
 use std::str::FromStr;
 use regex::Regex;
 use rayon::prelude::*;
+use mimalloc::MiMalloc;
+
+#[global_allocator]
+static GLOBAL: MiMalloc = MiMalloc;
 
 /// Simple program to greet a person
 #[derive(Parser, Debug)]

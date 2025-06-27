@@ -1,5 +1,4 @@
 use std::collections::HashMap;
-use std::fs;
 use std::process::exit;
 use std::str::FromStr;
 use clap::Parser;
@@ -8,6 +7,10 @@ use log::error;
 use regex::Regex;
 use simple_logger::SimpleLogger;
 
+use mimalloc::MiMalloc;
+
+#[global_allocator]
+static GLOBAL: MiMalloc = MiMalloc;
 use advent_of_code_2024::parse_input_file;
 
 /// Simple program to greet a person

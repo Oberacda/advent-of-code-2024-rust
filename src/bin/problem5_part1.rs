@@ -1,12 +1,15 @@
-use std::process::exit;
+use advent_of_code_2024::parse_input_file;
 use clap::Parser;
 use log::error;
-use simple_logger::SimpleLogger;
-use advent_of_code_2024::parse_input_file;
-use std::collections::{HashMap, HashSet};
-use std::str::FromStr;
-use itertools::Itertools;
+use mimalloc::MiMalloc;
 use regex::Regex;
+use simple_logger::SimpleLogger;
+use std::collections::{HashMap, HashSet};
+use std::process::exit;
+use std::str::FromStr;
+
+#[global_allocator]
+static GLOBAL: MiMalloc = MiMalloc;
 
 /// Simple program to greet a person
 #[derive(Parser, Debug)]
@@ -33,12 +36,12 @@ fn parse_input(input_string: &str) -> (HashMap<u64, HashSet<u64>>, Vec<Vec<u64>>
 
             let elem = rules.get_mut(&left);
             if let Some(item) = elem {
-               item.insert(right);
+                item.insert(right);
             } else {
                 rules.insert(left, HashSet::from([right]));
             }
 
-            continue
+            continue;
         }
         if order_regex.is_match(input_line) {
             let orders_split = input_line.split(",").collect::<Vec<&str>>();
@@ -78,7 +81,11 @@ fn get_middle_numer(order: &[u64]) -> u64 {
 }
 
 fn calculate_result(rules: &HashMap<u64, HashSet<u64>>, orders: &[Vec<u64>]) -> u64 {
-    orders.iter().filter(|order| validate_order(rules, order)).map(|order| get_middle_numer(order)).sum::<u64>()
+    orders
+        .iter()
+        .filter(|order| validate_order(rules, order))
+        .map(|order| get_middle_numer(order))
+        .sum::<u64>()
 }
 
 fn main() {

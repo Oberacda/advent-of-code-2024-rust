@@ -6,6 +6,10 @@ use std::process::exit;
 use advent_of_code_2024::parse_input_file;
 use ndarray::Array2;
 use simple_logger::SimpleLogger;
+use mimalloc::MiMalloc;
+
+#[global_allocator]
+static GLOBAL: MiMalloc = MiMalloc;
 
 /// Simple program to greet a person
 #[derive(Parser, Debug)]
